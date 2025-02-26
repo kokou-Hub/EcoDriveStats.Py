@@ -1,96 +1,130 @@
-### Introduction
+#  Fuel Economy Analysis Using Python & Seaborn
 
-This project focuses on analyzing the MPG (Miles Per Gallon) dataset using various data visualization techniques. The dataset provides information about the fuel economy of different car models, including attributes such as horsepower, cylinders, and country of origin. By leveraging Python libraries like `seaborn`, `pandas`, and `matplotlib`, the analysis aims to uncover insights and trends related to fuel efficiency, helping to understand factors that influence vehicle performance and fuel consumption over time.
+##  Project Overview
+This project analyzes **fuel economy trends** using Python, Seaborn, and Matplotlib. The dataset used is the **mpg dataset** from Seaborn, which contains information about fuel economy, horsepower, cylinders, and vehicle origins.
 
-### Steps Taken
+### **Key Objectives**
+- Understand the **relationship between horsepower and fuel economy**.
+- Analyze **fuel economy trends by country of origin**.
+- Observe **how fuel economy has changed over time**.
+- Explore the **distribution of fuel economy**.
+- Examine **the impact of cylinder count on fuel efficiency**.
 
-1. **Import Libraries**: 
-   - The necessary libraries are imported: `seaborn`, `pandas`, and `matplotlib.pyplot`.
+---
 
-    ```python
-    import seaborn as sns
-    import pandas as pd
-    import matplotlib.pyplot as plt
-    ```
+## 🛠 **Tools & Libraries Used**
+- **Python**  → Data processing and visualization.
+- **Pandas**  → Data manipulation and analysis.
+- **Seaborn**  → Statistical data visualization.
+- **Matplotlib**  → Creating plots and visualizations.
 
-2. **Load the Dataset**:
-   - The `mpg` dataset is loaded using the `seaborn` library.
+---
 
-    ```python
-    mpg = sns.load_dataset('mpg')
-    ```
+##  **Data Analysis & Key Findings**
 
-3. **Scatter Plot - Horsepower vs. Fuel Economy**:
-   - A scatter plot is created to visualize the relationship between horsepower and fuel economy.
+### **1️⃣ Relationship Between Horsepower and Fuel Economy**
+ **Objective:** Examine how a car’s horsepower affects its fuel efficiency.  
+ **Observation:** There is an **inverse relationship** between horsepower and fuel economy – as horsepower **increases**, fuel economy **decreases**.
 
-    ```python
-    plt.figure(figsize=(10, 6))
-    sns.scatterplot(x='horsepower', y='mpg', data=mpg)
-    plt.title('Relationship between Horsepower and Fuel Economy')
-    plt.xlabel('Horsepower')
-    plt.ylabel('Miles per Gallon (mpg)')
-    plt.grid(True, linestyle='--', linewidth=0.5)
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.show()
-    ```
+```python
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='horsepower', y='mpg', data=mpg)
+plt.title('Relationship between Horsepower and Fuel Economy')
+plt.xlabel('Horsepower')
+plt.ylabel('Miles per Gallon (mpg)')
+plt.grid(True, linestyle='--', linewidth=0.5)
+plt.show()
+```
 
-4. **Summary Table - Fuel Economy by Country of Origin**:
-   - A table is generated summarizing the average fuel economy by country of origin.
+---
 
-    ```python
-    fuel_economy_by_origin = mpg.groupby('origin')['mpg'].mean().reset_index()
-    fuel_economy_by_origin.columns = ['Country of Origin', 'Average Fuel Economy (mpg)']
-    fuel_economy_by_origin
-    ```
+### **2️⃣ Fuel Economy by Country of Origin**
+ **Objective:** Compare fuel economy across **USA, Japan, and Europe**.  
+ **Observation:** **Japanese cars tend to have better fuel economy** compared to American and European cars.
 
-5. **Line Plot - Change in Fuel Economy Over Time**:
-   - A line plot is created to show the change in fuel economy over time. Future warnings from `seaborn` are suppressed.
+```python
+fuel_economy_by_origin = mpg.groupby('origin')['mpg'].mean().reset_index()
+fuel_economy_by_origin.columns = ['Country of Origin', 'Average Fuel Economy (mpg)']
+fuel_economy_by_origin
+```
 
-    ```python
-    import warnings
+ **Average Fuel Economy by Origin:**
 
-    # Suppress the FutureWarning
-    warnings.filterwarnings("ignore", category=FutureWarning, module="seaborn")
+| Country  | Avg MPG  |
+|----------|---------|
+| **Europe**  | 27.89  |
+| **Japan**   | 30.45  |
+| **USA**     | 20.08  |
 
-    plt.figure(figsize=(10, 6))
-    mpg['year'] = mpg['model_year'] + 1900
-    average_mpg_by_year = mpg.groupby('year')['mpg'].mean().reset_index()
-    sns.lineplot(x='year', y='mpg', data=average_mpg_by_year)
-    plt.title('Change in Fuel Economy Over Time')
-    plt.xlabel('Year')
-    plt.ylabel('Average Miles per Gallon (mpg)')
-    plt.grid(True)
-    plt.show()
-    ```
+---
 
-6. **Histogram - Distribution of Fuel Economy**:
-   - A histogram is plotted to show the distribution of fuel economy (MPG).
+### **3️⃣ Change in Fuel Economy Over Time**
+ **Objective:** Observe how fuel economy has evolved across different years.  
+ **Observation:** Fuel economy **improved significantly in the late 1970s and early 1980s**, likely due to oil crises and regulatory changes.
 
-    ```python
-    plt.figure(figsize=(10, 6))
-    sns.histplot(mpg['mpg'], bins=20, kde=True)
-    plt.title('Distribution of Fuel Economy')
-    plt.xlabel('Miles per Gallon (mpg)')
-    plt.ylabel('Frequency')
-    plt.show()
-    ```
+```python
+mpg['year'] = mpg['model_year'] + 1900
+average_mpg_by_year = mpg.groupby('year')['mpg'].mean().reset_index()
+sns.lineplot(x='year', y='mpg', data=average_mpg_by_year)
+plt.title('Change in Fuel Economy Over Time')
+plt.xlabel('Year')
+plt.ylabel('Average Miles per Gallon (mpg)')
+plt.grid(True)
+plt.show()
+```
 
-7. **Box Plot - Fuel Economy by Number of Cylinders**:
-   - A box plot is created to visualize the fuel economy based on the number of cylinders in the cars.
+---
 
-    ```python
-    sns.set_style("whitegrid")
+### **4️⃣ Distribution of Fuel Economy**
+ **Objective:** Understand the spread and concentration of fuel economy values.  
+ **Observation:** Most cars have **fuel economy between 15 and 30 mpg**, with a few outliers on both ends.
 
-    plt.figure(figsize=(10, 6))
-    sns.boxplot(x='cylinders', y='mpg', data=mpg, palette="Set2")
-    plt.title('Fuel Economy by Number of Cylinders', fontsize=16)
-    plt.xlabel('Number of Cylinders', fontsize=14)
-    plt.ylabel('Miles per Gallon (mpg)', fontsize=14)
+```python
+plt.figure(figsize=(10, 6))
+sns.histplot(mpg['mpg'], bins=20, kde=True)
+plt.title('Distribution of Fuel Economy')
+plt.xlabel('Miles per Gallon (mpg)')
+plt.ylabel('Frequency')
+plt.show()
+```
 
-    plt.grid(True, which='major', axis='y', linestyle='--', linewidth=0.7, color='gray')
+---
 
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.show()
-    ```
+### **5️⃣ Fuel Economy by Cylinder Count**
+ **Objective:** Investigate how the number of cylinders affects fuel efficiency.  
+ **Observation:** Cars with **fewer cylinders tend to have better fuel economy**.  
+🔹 **4-cylinder cars** have the **highest median mpg**, while **8-cylinder cars** have the **lowest**.
+
+```python
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='cylinders', y='mpg', data=mpg, palette="Set2")
+plt.title('Fuel Economy by Number of Cylinders', fontsize=16)
+plt.xlabel('Number of Cylinders', fontsize=14)
+plt.ylabel('Miles per Gallon (mpg)', fontsize=14)
+plt.grid(True, which='major', axis='y', linestyle='--', linewidth=0.7, color='gray')
+plt.show()
+```
+
+---
+
+## 🔍 **Summary of Findings**
+✔️ **Horsepower vs. Fuel Economy** → As **horsepower increases, fuel economy decreases**.  
+✔️ **Fuel Economy by Origin** → **Japanese cars have the best fuel economy**, followed by **European and American cars**.  
+✔️ **Fuel Economy Trends Over Time** → Fuel efficiency **improved significantly** in the late **1970s & 1980s**.  
+✔️ **Distribution of Fuel Economy** → Most cars **fall between 15-30 mpg**.  
+✔️ **Cylinders vs. Economy** → Cars with **fewer cylinders** tend to have **higher mpg**.  
+
+---
+
+##  **How to Use This Repository**
+1️⃣ **Clone this repository**  
+```bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/Fuel-Economy-Analysis.git
+cd Fuel-Economy-Analysis
+```
+2️⃣ **Install dependencies**  
+```bash
+pip install pandas seaborn matplotlib
+```
+3️⃣ **Run the Python script** to generate visualizations.
+
